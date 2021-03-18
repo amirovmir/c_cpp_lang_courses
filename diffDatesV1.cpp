@@ -4,7 +4,7 @@
 using namespace std;
 
 int main() {
-	//setlocale(0, ""); //устанавливаем Кириллицу
+	//setlocale(0, ""); //ГіГ±ГІГ Г­Г ГўГ«ГЁГўГ ГҐГ¬ ГЉГЁГ°ГЁГ«Г«ГЁГ¶Гі
 	int year, m1, d1, m2, d2, diff;
 	string month[12] = {"January ", "February ", "March ", "April ", "May ", "June ", "July ", "August ", "September ", "October ", "November ", "December "};
 	int daysinmonth[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
@@ -12,7 +12,7 @@ int main() {
 	cout << "Enter year, month1, day1, month2, day2" << endl;
 	cin >> year >> m1 >> d1 >> m2 >> d2;
 
-	//проверка месяцев
+	//ГЇГ°Г®ГўГҐГ°ГЄГ  Г¬ГҐГ±ГїГ¶ГҐГў
 	while (m1 > 12 || m2 > 12) {
 		if (m1 > 12) {
 			cout << "Enter correct month1:" << endl;
@@ -24,7 +24,7 @@ int main() {
 		}
 	}
 
-	//проверка високосного Февраля
+	//ГЇГ°Г®ГўГҐГ°ГЄГ  ГўГЁГ±Г®ГЄГ®Г±Г­Г®ГЈГ® Г”ГҐГўГ°Г Г«Гї
 	while (((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) && (m1 == 2 || m2 == 2) && (d1 > 29 || d2 > 29)) {
 		if (m1 == 2)
 			cout << "It can't be more than 29 days in February in " << year << " year. Enter correct day in month1: ";
@@ -37,7 +37,7 @@ int main() {
 		}
 	}
 
-	//проверку обычного Февраля
+	//ГЇГ°Г®ГўГҐГ°ГЄГі Г®ГЎГ»Г·Г­Г®ГЈГ® Г”ГҐГўГ°Г Г«Гї
 	while ((year % 4 != 0 || (year % 4 == 0 && year % 100 == 0 && year % 400 != 0)) && (m1 == 2 || m2 == 2) && (d1 > 28 || d2 > 28)) {
 		if (m1 == 2)
 			cout << "It can't be more than 28 days in February in " << year << " year. Enter correct day in month1: ";
@@ -49,7 +49,7 @@ int main() {
 			cin >> d2;
 	}
 
-	//проверка 30 дневных месяцев
+	//ГЇГ°Г®ГўГҐГ°ГЄГ  30 Г¤Г­ГҐГўГ­Г»Гµ Г¬ГҐГ±ГїГ¶ГҐГў
 	while ((daysinmonth[m1 - 1] % 2 == 0 || daysinmonth[m2 - 1] % 2 == 0) && (d1 > 30 || d2 > 30)) {
 		if (d1 > 30) {
 			cout << "Uncorrect day in month1. Enter correct day1: ";
@@ -61,7 +61,7 @@ int main() {
 		}
 	}
 
-	//проверка 31 дневных месяцев
+	//ГЇГ°Г®ГўГҐГ°ГЄГ  31 Г¤Г­ГҐГўГ­Г»Гµ Г¬ГҐГ±ГїГ¶ГҐГў
 	while ((daysinmonth[m1 - 1] % 2 == 1 || daysinmonth[m2 - 1] % 2 == 1) && (d1 > 31 || d2 > 31)) {
 		if (d1 > 31) {
 			cout << "Uncorrect day in month1. Enter correct day1: ";
@@ -73,7 +73,7 @@ int main() {
 		}
 	}
 
-	//Определяем какой год и сколько дней в каждом месяце
+	//ГЋГЇГ°ГҐГ¤ГҐГ«ГїГҐГ¬ ГЄГ ГЄГ®Г© ГЈГ®Г¤ ГЁ Г±ГЄГ®Г«ГјГЄГ® Г¤Г­ГҐГ© Гў ГЄГ Г¦Г¤Г®Г¬ Г¬ГҐГ±ГїГ¶ГҐ
 	if ((year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)) {
 		cout << "Leap year (366 days)" << endl;
 		year = 366;
@@ -90,7 +90,7 @@ int main() {
 		}
 	}
 
-	//определяем разницу в днях
+	//Г®ГЇГ°ГҐГ¤ГҐГ«ГїГҐГ¬ Г°Г Г§Г­ГЁГ¶Гі Гў Г¤Г­ГїГµ
 	int x1 = 0;
 	for (int i = 0; i < m1 - 1; ++i) {
 		x1 += daysinmonth[i];
