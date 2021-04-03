@@ -18,11 +18,8 @@ void bubbleSort(int* arr, int size)
                 arr[n + 1] = arr[n];
                 arr[n] = tmp;
             }
-            else
-                g++;
         }
     }
-    cout << g << "\n";
 }
 
 int main() {
