@@ -38,7 +38,6 @@ void perevodAnother(int base, int chislo) {
 			cout << c;
 		}
 		chislo -= c * pow(base, i);
-
 	}
 }
 
