@@ -24,12 +24,10 @@ void Setup() {
 }
 
 void Draw() {
-//ðèñóåì âåðõíþþ ñòåíêó
-	//system("cls");
+	system("cls");
 	for (int i = 0; i < width + 1; i++)
 		cout << "#";
 	cout << endl;
-//ðèñóåì áîêîâûå ñòåíêè
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width; j++) {
 			if (j == 0 || j == width - 1)
@@ -53,7 +51,6 @@ void Draw() {
 		}
 		cout << endl;
 	}
-//ðèñóåì íèæíþþ ñòåíêó
 	for (int i = 0; i < width + 1; i++) {
 		cout << "#";
 	}
@@ -114,10 +111,8 @@ void Logic() {
 		break;
 	}
 
-//êîíåö èãðû, åñëè çìåÿ óäàðÿåòñÿ îá ñòåíêó
 	//if (x > width || x < 0 || y > height || y < 0)
 	//	gameOver = true;
-//ïðîõîä çìåè ÷åðåç ñòåíó è ïîÿâëåíèå ñ äðóãîãî êîíöà
 	if (x >= width - 1)
 		x = 0;
 	else if (x < 0)
@@ -126,12 +121,12 @@ void Logic() {
 		y = 0;
 	else if (y < 0)
 		y = height - 1;
-//êîíåö èãðû, åñëè çìåÿ ñúåäàåò ñâîé õâîñò
+
 	for (int i = 0; i < nTail; i++) {
 		if (tailX[i] == x && tailY[i] == y)
 			gameOver = true;
 	}
-//ïîÿâëåíèå íîâîãî ôðóêòà è ïðèáàâëåíèå î÷êîâ, êîãäà ñúåäàåòñÿ ñòàðûé ôðóêò
+
 	if (x == fruitX && y == fruitY) {
 		score += 10;
 		fruitX = rand() % width - 1;
