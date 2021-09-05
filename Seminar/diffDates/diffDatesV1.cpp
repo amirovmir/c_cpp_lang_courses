@@ -4,7 +4,6 @@
 using namespace std;
 
 int main() {
-	//setlocale(0, ""); //óñòàíàâëèâàåì Êèðèëëèöó
 	int year, m1, d1, m2, d2, diff;
 	string month[12] = {"January ", "February ", "March ", "April ", "May ", "June ", "July ", "August ", "September ", "October ", "November ", "December "};
 	int daysinmonth[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
@@ -12,7 +11,6 @@ int main() {
 	cout << "Enter year, month1, day1, month2, day2" << endl;
 	cin >> year >> m1 >> d1 >> m2 >> d2;
 
-	//ïðîâåðêà ìåñÿöåâ
 	while (m1 > 12 || m2 > 12) {
 		if (m1 > 12) {
 			cout << "Enter correct month1:" << endl;
@@ -24,7 +22,6 @@ int main() {
 		}
 	}
 
-	//ïðîâåðêà âèñîêîñíîãî Ôåâðàëÿ
 	while (((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) && (m1 == 2 || m2 == 2) && (d1 > 29 || d2 > 29)) {
 		if (m1 == 2)
 			cout << "It can't be more than 29 days in February in " << year << " year. Enter correct day in month1: ";
@@ -37,7 +34,6 @@ int main() {
 		}
 	}
 
-	//ïðîâåðêó îáû÷íîãî Ôåâðàëÿ
 	while ((year % 4 != 0 || (year % 4 == 0 && year % 100 == 0 && year % 400 != 0)) && (m1 == 2 || m2 == 2) && (d1 > 28 || d2 > 28)) {
 		if (m1 == 2)
 			cout << "It can't be more than 28 days in February in " << year << " year. Enter correct day in month1: ";
@@ -49,7 +45,6 @@ int main() {
 			cin >> d2;
 	}
 
-	//ïðîâåðêà 30 äíåâíûõ ìåñÿöåâ
 	while ((daysinmonth[m1 - 1] % 2 == 0 || daysinmonth[m2 - 1] % 2 == 0) && (d1 > 30 || d2 > 30)) {
 		if (d1 > 30) {
 			cout << "Uncorrect day in month1. Enter correct day1: ";
@@ -61,7 +56,6 @@ int main() {
 		}
 	}
 
-	//ïðîâåðêà 31 äíåâíûõ ìåñÿöåâ
 	while ((daysinmonth[m1 - 1] % 2 == 1 || daysinmonth[m2 - 1] % 2 == 1) && (d1 > 31 || d2 > 31)) {
 		if (d1 > 31) {
 			cout << "Uncorrect day in month1. Enter correct day1: ";
@@ -73,7 +67,6 @@ int main() {
 		}
 	}
 
-	//Îïðåäåëÿåì êàêîé ãîä è ñêîëüêî äíåé â êàæäîì ìåñÿöå
 	if ((year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)) {
 		cout << "Leap year (366 days)" << endl;
 		year = 366;
@@ -90,7 +83,6 @@ int main() {
 		}
 	}
 
-	//îïðåäåëÿåì ðàçíèöó â äíÿõ
 	int x1 = 0;
 	for (int i = 0; i < m1 - 1; ++i) {
 		x1 += daysinmonth[i];
