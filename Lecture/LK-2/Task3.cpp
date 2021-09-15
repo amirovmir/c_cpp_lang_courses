@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <string>
 
 /*
@@ -9,33 +9,27 @@ int length();
 
 using namespace std;
 
-class FooString 
-{
+class FooString {
     char* buf;
 public:
-    FooString(char* tbuf) 
-    {
+    FooString(char* tbuf) {
         int size = 0;
         while (tbuf != '\0')
             size++;
         tbuf = new char[size];
     };
 
-    ~FooString() 
-    {
+    ~FooString() {
         delete[] buf;
     };
 
-    void show() 
-    {
+    void show() {
         cout << buf;
     };
 
-    int length() 
-    {
+    int length() {
         int l = 0;
-        while (true) 
-        {
+        while (true) {
             if (buf != '\0')
                 l++;
             else
@@ -47,8 +41,7 @@ public:
     bool testLength();
 };
 
-bool FooString::testLength() 
-{
+bool FooString::testLength() {
     char ch[10] = "proga";
     FooString str(ch);
     if (str.length() == 5)
@@ -64,8 +57,7 @@ void runTest(const string& testName) {
         std::cout << "Test " << testName << " - FAIL" << std::endl;
 }
 
-int main()
-{
+int main() {
     runTest("testLength");    
     return 0;
 }
