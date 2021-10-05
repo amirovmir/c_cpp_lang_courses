@@ -1,6 +1,9 @@
 #include <iostream>
+#include <string>
+#include <fstream>
 
 using namespace std;
+const int SIZE = 30;
 
 /*Написать программу, которая:
 -умеет читать текстовый файл, который может быть указан ей в качестве аргумента командной строки и содержит названия животных(одно на строке)
@@ -21,7 +24,7 @@ using namespace std;
 
 class Animal {
 public:
-	virtual void voice();
+	virtual void voice(char* buf) = 0;
 };
 
 class Dog : public Animal {
@@ -45,15 +48,51 @@ public:
 	}
 };
 
-void showAll(Animal* p, int number_of_animal) {
+void showAll(Animal** p, int number_of_animal) {
+	char fromconsole[SIZE];
+	cin >> fromconsole;
 
+	for (int i = 0; i < number_of_animal; i++) {
+		p[i]->voice(fromconsole);
+		cout << endl;
+	}
 }
 
-void fileReader() {
+void fileReader(string fDir, Animal** p) {
+	string line;
+	ifstream in(fDir);
+	int calc = 0;
+	
+	if (in.is_open()) {
+		while (getline(in, line)) {
+			calc++;
+		}
 
+		in.seekg(0, ios::beg);
+		p = new Animal * [calc];
+		int i = 0;
+
+		while (getline(in, line)) {
+			if ((const char*) line[0] == 'w') {
+				p[i] = new Wolf;
+			}
+			if ((const char*)line[0] == 'd') {
+				p[i] = new Dog;
+			}
+			if ((const char*)line[0] == 't') {
+				p[i] = new Tiger;
+			}
+			i++;
+		}
+		showAll(p, calc);
+		delete[] p;
+	}
+	in.close();
 }
 
-int main() {
+int main(string txt) {
+	Animal** anim = nullptr;
+	fileReader(txt, anim);
 
 	return 0;
 }
