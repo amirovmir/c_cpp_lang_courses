@@ -50,19 +50,17 @@ class DArr {
 
     void addArr(int val) {
         if (val >= -100 && val <= 100) {
-            int* buf = new int[size];
+            int* buf = new int[size++];
             for (int i = 0; i < size; i++) {
                 buf[i] = arr[i];
             }
-            delete[] arr;
-
+            buf[size - 1] = val;
+            
             size++;
-            arr = new int[size];
-            for (int i = 0; i < size - 1; i++) {
-                arr[i] = buf[i];
-            }
-            arr[size - 1] = val;
-            delete[] buf;
+            arr = buf;
+        }
+        else {
+            cout << "Error\n";
         }
     }
     friend DArr operator+(DArr, DArr);
