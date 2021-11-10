@@ -54,7 +54,7 @@ class DArr {
             for (int i = 0; i < size; i++) {
                 buf[i] = arr[i];
             }
-            buf[size] = val;
+            buf[size - 1] = val;
             
             size++;
             arr = buf;
