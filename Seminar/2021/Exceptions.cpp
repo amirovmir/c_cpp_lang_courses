@@ -58,8 +58,6 @@ public:
 		if (std::is_same<T, int>::value) {
 			if (val > 100 || val < -100)
 				throw std::invalid_argument("Push_back error. Invalid argument\n");
-			else
-				exit(-1);
 		}
 		else {
 			T* mass = new T[size + 1];
