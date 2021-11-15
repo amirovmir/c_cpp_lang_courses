@@ -1,8 +1,16 @@
 #include <iostream>
 #include <exception>
+#include <stdexcept>
 #include <cmath>
 
 using namespace std;
+
+class logic_error : public exception {
+public:
+	explicit logic_error(const string& message);
+
+	explicit logic_error(const char* message);
+};
 
 template<typename T>
 class Array {
@@ -65,17 +73,21 @@ public:
 	}
 
 	void dist(Array<T>& arr) {
-		double r = 0.0;
-		for (int i = 0; i < arr.size - 1; i++) {
-			int diff = (p[i] - arr.p[i]);
-			r += diff * diff;
-		}
-		if (r > 0)
-			r = sqrt(r);
-		else
-			r = 0;
+		if (std::is_same<T, int>::value) {
+			double r = 0.0;
+			for (int i = 0; i < arr.size - 1; i++) {
+				int diff = (p[i] - arr.p[i]);
+				r += diff * diff;
+			}
+			if (r > 0)
+				r = sqrt(r);
+			else
+				r = 0;
 
-		cout << "Distance between two massives is: " << r << endl;
+			cout << "Distance between two massives is: " << r << endl;
+		}
+		else
+			throw std::logic_error("Lofic failure");
 	}
 
 	void print() {
@@ -207,7 +219,7 @@ DArr operator-(DArr arr1, DArr arr2) {
 		}
 
 		for (int i = arr2.size; i < arr1.size; i++) {
-			buf.setArr(i, arr1.getArr(-i));
+			buf.setArr(i, arr1.getArr(i));
 		}
 
 		return buf;
@@ -249,21 +261,19 @@ int main() {
 		DArr d = a - b;
 		d.print();
 
-		Array<int> f(7);
+		DArr e = c - b;
+		e.print();
+
+		Array<char> f(7);
 		f.print();
-		Array<int> h(7);
+		Array<char> h(7);
 		h.print();
 		f.dist(h);
 		Array<char> g(7);
 		g.print();
 	}
-	catch (bad_alloc a) {
-		cout << "Array initialization error!\n" << a.what() << endl;
-	}
-	catch (out_of_range b) {
-		cout << "Accessing array elements error!\n" << b.what() << endl;
-	}
-	catch (invalid_argument c) {
-		cout << "Setting array arguments error!\n" << c.what() << endl;
-	}
+	catch (exception& e) {
+		cerr << "Caught: " << e.what() << endl;
+		cerr << "Type: " << typeid(e).name() << endl;
+	};
 }
