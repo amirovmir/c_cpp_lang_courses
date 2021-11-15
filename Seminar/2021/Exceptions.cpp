@@ -59,14 +59,12 @@ public:
 			if (val > 100 || val < -100)
 				throw std::invalid_argument("Push_back error. Invalid argument\n");
 		}
-		else {
-			T* mass = new T[size + 1];
-			memcpy(mass, p, size * sizeof(T));
-			mass[size] = val;
-
-			size++;
-			p = mass;
-		}
+		T* mass = new T[size + 1];
+		memcpy(mass, p, size * sizeof(T));
+		mass[size] = val;
+		
+		size++;
+		p = mass;
 	}
 
 	void dist(Array<T>& arr) {
