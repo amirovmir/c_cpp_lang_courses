@@ -21,10 +21,11 @@ public:
 	}
 
 	Array(const Array<T>& mas) {
-		if (size <= 0)
-			throw std::invalid_argument();
 		size = mas.size;
 		p = new T[size];
+
+		if (size <= 0)
+			throw std::invalid_argument();
 
 		for (int i = 0; i < size; i++)
 			p[i] = mas.p[i];
@@ -36,19 +37,19 @@ public:
 
 	void set(int ind, T val) {
 		if (std::is_same<T, int>::value) {
-			if (ind < 0 || ind >= size)
-				throw std::invalid_argument("Setter error. Out of range\n");
 			if (val < -100 || val > 100)
 				throw std::invalid_argument("Setter error. Invalid argument\n");
-			else p[ind] = val;
 		}
+		if (ind < 0 || ind >= size)
+			throw std::invalid_argument("Setter error. Out of range\n");
 		else
-			throw std::logic_error("Logic failure\n");
+			p[ind] = val;
 	}
 
 	void get(int ind) {
-		if (ind < 0 || ind >= size)
+		if (ind < 0 || ind >= size)	{
 			throw std::out_of_range("Getter error. Out of range\n");
+		}
 		else 
 			return p[ind];
 	}
@@ -57,6 +58,10 @@ public:
 		if (std::is_same<T, int>::value) {
 			if (val > 100 || val < -100)
 				throw std::invalid_argument("Push_back error. Invalid argument\n");
+			else
+				exit(-1);
+		}
+		else {
 			T* mass = new T[size + 1];
 			memcpy(mass, p, size * sizeof(T));
 			mass[size] = val;
@@ -64,8 +69,6 @@ public:
 			size++;
 			p = mass;
 		}
-		else
-			throw std::logic_error("Logic failure\n");
 	}
 
 	void dist(Array<T>& arr) {
@@ -116,9 +119,9 @@ public:
 
 int main() {
 	try {
-		Array<int> a(7);
+		Array<char> a(7);
 		a.print();
-		Array<int> b(7);
+		Array<char> b(7);
 		b.print();
 		a.dist(b);
 		Array<char> c(7);
