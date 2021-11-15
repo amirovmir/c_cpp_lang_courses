@@ -21,11 +21,10 @@ public:
 	}
 
 	Array(const Array<T>& mas) {
-		size = mas.size;
-		p = new T[size];
-
 		if (size <= 0)
 			throw std::invalid_argument();
+		size = mas.size;
+		p = new T[size];
 
 		for (int i = 0; i < size; i++)
 			p[i] = mas.p[i];
@@ -39,7 +38,7 @@ public:
 		if (std::is_same<T, int>::value) {
 			if (ind < 0 || ind >= size)
 				throw std::invalid_argument("Setter error. Out of range\n");
-			if (val > 100 || val < -100)
+			if (val < -100 || val > 100)
 				throw std::invalid_argument("Setter error. Invalid argument\n");
 			else p[ind] = val;
 		}
@@ -48,9 +47,8 @@ public:
 	}
 
 	void get(int ind) {
-		if (ind < 0 || ind >= size)	{
+		if (ind < 0 || ind >= size)
 			throw std::out_of_range("Getter error. Out of range\n");
-		}
 		else 
 			return p[ind];
 	}
