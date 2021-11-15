@@ -1,4 +1,5 @@
 #include <iostream>
+#include <exception>
 #include <cmath>
 
 using namespace std;
@@ -10,12 +11,24 @@ class Array {
 public:
 	Array(int size) {
 		this->size = size;
-		p = new int[size];
+		p = new T[size];
+
+		if (size == 0)
+			throw std::bad_alloc();
+
+		for (int i = 0; i < size; i++)
+			p[i] = rand() % 100;
 	}
 
-	Array(const Array& mas) {
+	Array(const Array<T>& mas) {
 		size = mas.size;
 		p = new T[size];
+
+		if (size == 0)
+			throw std::bad_alloc();
+		if (size > 1000)
+			throw std::out_of_range();
+
 		for (int i = 0; i < size; i++)
 			p[i] = mas.p[i];
 	}
@@ -26,20 +39,23 @@ public:
 
 	void set(int ind, T val) {
 		if (ind < 0 || ind >= size)
-			cout << "Setter error. Out of range" << endl;
+			throw std::bad_alloc("Setter error. Out of range\n");
+		if (val > 100 || val < -100)
+			throw std::invalid_argument("Setter error. Invalid argument\n");
 		else p[ind] = val;
 	}
 
 	void get(int ind) {
 		if (ind < 0 || ind >= size)	{
-			cout << "Getter error. Out of range" << endl;
-			return -1;
+			throw std::out_of_range("Getter error. Out of range\n");
 		}
 		else 
 			return p[ind];
 	}
 
 	void push_back(T val) {
+		if (val > 100 || val < -100)
+			throw std::invalid_argument("Push_back error. Invalid argument\n");
 		T* mass = new T[size + 1];
 		memcpy(mass, p, size * sizeof(T));
 		mass[size] = val;
@@ -48,12 +64,18 @@ public:
 		p = mass;
 	}
 
-	double dist(const Array& arr) {
-		int p = 0.0;
-		for (int i = 0; i < size; i++) 
-			p += (p[i] - arr.p[i]) * (p[i] - arr.p[i]);
+	void dist(Array<T>& arr) {
+		double r = 0.0;
+		for (int i = 0; i < arr.size - 1; i++) {
+			int diff = (p[i] - arr.p[i]);
+			r += diff * diff;
+		}
+		if (r > 0)
+			r = sqrt(r);
+		else
+			r = 0;
 
-		return sqrt(p);
+		cout << "Distance between two massives is: " << r << endl;
 	}
 
 	void print() {
@@ -115,19 +137,19 @@ public:
 	}
 
 	void setArr(int ind, int val) {
-		if ((val >= -100 && val <= 100) && (ind >= 0 && ind < size)) {
+		if (val < -100 || val > 100)
+			throw std::invalid_argument("setArr error. Invalid value\n");		
+		if	(ind < 0 || ind >= size)
+			throw std::out_of_range("setArr error. Out of range\n");
+		else
 			arr[ind] = val;
-		}
-		else {
-			cout << "Error! Invalid value or out of range\n";
-		}
 	}
 
 	int getArr(int ind) {
 		if (ind >= 0 && ind < size)
 			return arr[ind];
 		else
-			cout << "Error\n";
+			throw std::out_of_range("getArr error. Out of range\n");
 	}
 
 	void addArr(int val) {
@@ -140,7 +162,7 @@ public:
 			arr = mass;
 		}
 		else {
-			cout << "Error! Invalid value\n";
+			throw std::invalid_argument("setArr error. Invalid value\n");
 		}
 	}
 	friend DArr operator+(DArr, DArr);
@@ -208,7 +230,6 @@ DArr operator-(DArr arr1, DArr arr2) {
 int main() {
 	try {
 		DArr a(7);
-		cout << "a(7)\n";
 		a.print();
 		a.setArr(3, 88);
 		a.print();
@@ -217,24 +238,24 @@ int main() {
 		cout << a.getArr(3) << endl;
 
 		DArr b(a);
-		cout << "b(a)\n";
 		b.print();
 		b.setArr(2, 34);
 		b.setArr(5, 3);
-		cout << "b\n";
 		b.print();
 
 		DArr c(9);
-		cout << "c(9)\n";
 		c.print();
 
 		DArr d = a - b;
-		cout << "d = a - b\n";
 		d.print();
 
-		DArr e = c - b;
-		cout << "e = c - b\n";
-		e.print();
+		Array<int> f(7);
+		f.print();
+		Array<int> h(7);
+		h.print();
+		f.dist(h);
+		Array<char> g(7);
+		g.print();
 	}
 	catch (bad_alloc a) {
 		cout << "Array initialization error!\n" << a.what() << endl;
