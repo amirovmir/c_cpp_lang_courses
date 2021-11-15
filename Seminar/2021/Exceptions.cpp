@@ -10,11 +10,11 @@ class Array {
 	int size;
 public:
 	Array(int size) {
-		this->size = size;
-		p = new T[size];
-
 		if (size <= 0)
 			throw std::invalid_argument("Size error. Out of range\n");
+		
+		this->size = size;
+		p = new T[size];
 
 		for (int i = 0; i < size; i++)
 			p[i] = rand() % 100;
