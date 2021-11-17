@@ -1,56 +1,73 @@
 #include <iostream>
+#include <exception>
 
 using namespace std;
 
-template<typename DataType, std::size_t mx, std::size_t my>
+template<typename T, std::size_t tmx, std::size_t tmy>
 class Image {
-    DataType* img;
-    size_t tmx = mx;
-    size_t tmy = my;
+    T* img;
+    size_t mx;
+    size_t my;
 
 public:
     Image() {
-        img = new int[mx * my]();
-    };
+        mx = tmx;
+        my = tmy;
+        img = new T[mx * my];
 
-    virtual ~Image() {
+        for (int i = 0; i < tmy; ++i) {
+            for (int j = 0; j < tmx; ++j) {
+                img[i * tmy + j] = rand() % 10;
+            }
+        }
+    };
+    Image(const Image& v) {
+        img = new T[tmx * tmy];
+
+        int buf = tmx * tmy;
+        for (int i = 0; i < buf; i++) {
+            img[i] = v.img[i];
+        }
+    }
+
+    ~Image() {
         delete[] img;
     }
 
     int get(int x, int y);
     int set(int x, int y, int color);
-    Image operator=(const Image& v) { 
-        mx = v.mx;
-        my = v.my;
+    void print();
+    Image operator=(const Image& v) {
+        this->mx = v.mx;
+        this->my = v.my;
         return *this;
     }
 };
 
-template<typename DataType, std::size_t mx, std::size_t my>
-int Image<DataType, mx, my>::get(int x, int y) {
-    try {
-        if (x > mx || y > my || x < 0 || y < 0)
-            throw 404;
-    }
-    catch (int error) {
-        cout << "Eror " << error << endl;
-        exit(1);
-    }
-
-    return img[y * my + x];
+template<typename T, std::size_t tmx, std::size_t tmy>
+int Image<T, tmx, tmy>::get(int x, int y) {
+    if (x >= 0 && x < tmx && y >= 0 && y < tmy)
+        return img[y * tmy + x];
+    else
+        throw std::out_of_range("Getter error! Out of range\n");
 }
 
-template<typename DataType, std::size_t mx, std::size_t my>
-int Image<DataType, mx, my>::set(int x, int y, int color) {
-    try {
-        if (x >= mx || y >= my || x < 0 || y < 0)
-            throw 404;
+template<typename T, std::size_t tmx, std::size_t tmy>
+int Image<T, tmx, tmy>::set(int x, int y, int color) {
+    if (x >= 0 && x < tmx && y >= 0 && y < tmy)
+        img[y * tmy + x] = color;
+    else
+        throw std::out_of_range("Setter error! Out of range\n");
+}
+
+template<typename T, std::size_t tmx, std::size_t tmy>
+void Image<T, tmx, tmy>::print() {
+    for (int i = 0; i < tmy; ++i) {
+        for (int j = 0; j < tmx; ++j) {
+            cout << img[i * tmy + j] << ' ';
+        }
+        cout << endl;
     }
-    catch (int error) {
-        cout << "Eror " << error << endl;
-        exit(1);
-    }
-    img[y * my + x] = color;
 }
 
 int main() {
@@ -65,9 +82,12 @@ int main() {
 
         cout << img1.get(1, 2) << endl;
         cout << img2.get(1, 3) << endl;
+
+        img1.print();
     }
-    catch (int f) {
-        if(f == '404')
-            cout << "Out of range. Element not found\n";
-    }
+
+    catch (exception& e) {
+        cerr << "Caught: " << e.what() << endl;
+        cerr << "Type: " << typeid(e).name() << endl;
+    };
 }
