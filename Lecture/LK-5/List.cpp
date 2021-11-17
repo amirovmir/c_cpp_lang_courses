@@ -10,56 +10,53 @@ private:
         Node* pNext;
         T data;
 
-        Node(T data = T(), Node* pNext = nullptr)
-        {
+        Node(T data = T(), Node* pNext = nullptr) {
             this->data = data;
             this->pNext = pNext;
         }
     };
 
 public:
+    List() {
+        size = 0;
+        head = nullptr;
+    }
 
-    List();
-    ~List();
+    ~List() {
+        removeNode();
+    }
 
-    void InsertNode(T data);
-    void RemoveNode();
-    void DeleteFront();
-    void PrintList();
+    void pushNode(T data);
+    void removeNode();
+    void deleteFront();
+    void printList();
+    int getSize() {
+        return size;
+    }
 
     int size;
     Node<T>* head;
 };
 
 template<typename T>
-void List<T>::DeleteFront() {
+void List<T>::deleteFront() {
     Node<T>* temp = head;
-
-    head = head->pNext;
-    delete temp;
-    size--;
-}
-
-template<typename T>
-void List<T>::RemoveNode() {
-    while (size) {
-        DeleteFront();
+    if (head->pNext != nullptr) {
+        head = head->pNext;
+        delete temp;
+        size--;
     }
 }
 
 template<typename T>
-List<T>::List() {
-    size = 0;
-    head = nullptr;
-}
-
-template<typename T>
-List<T>::~List() {
-    RemoveNode();
+void List<T>::removeNode() {
+    while (size) {
+        deleteFront();
+    }
 }
 
 template <typename T>
-void List<T>::InsertNode(T data) {
+void List<T>::pushNode(T data) {
     Node<T>* nd = new Node<T>();
     nd->data = data;
     nd->pNext = head;
@@ -67,7 +64,7 @@ void List<T>::InsertNode(T data) {
 }
 
 template <typename T>
-void List<T>::PrintList() {
+void List<T>::printList() {
     Node<T>* current = head;
 
     while (current) {
@@ -80,9 +77,11 @@ void List<T>::PrintList() {
 int main() {
     List<int> lst;
     cout << "Enter size" << endl;
-    int numberCount = 0;
-    cin >> numberCount;
-    for (int i = 0; i < numberCount; i++)
-        lst.InsertNode(rand() % 30);
-    lst.PrintList();
+    int size;
+    cin >> size;
+    for (int i = 0; i < size; i++)
+        lst.pushNode(rand() % 30);
+    lst.printList();
+    lst.deleteFront();
+    lst.printList();
 }
