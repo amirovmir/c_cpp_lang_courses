@@ -35,7 +35,7 @@ public:
     }
 
     int get(int x, int y);
-    int set(int x, int y, int color);
+    void set(int x, int y, int color);
     void print();
     Image operator=(const Image& v) {
         this->mx = v.mx;
@@ -53,7 +53,7 @@ int Image<T, tmx, tmy>::get(int x, int y) {
 }
 
 template<typename T, std::size_t tmx, std::size_t tmy>
-int Image<T, tmx, tmy>::set(int x, int y, int color) {
+void Image<T, tmx, tmy>::set(int x, int y, int color) {
     if (x >= 0 && x < tmx && y >= 0 && y < tmy)
         img[y * tmy + x] = color;
     else
