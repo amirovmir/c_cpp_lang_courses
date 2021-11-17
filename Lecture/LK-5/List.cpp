@@ -20,7 +20,6 @@ private:
 public:
 
     List();
-    //List(List&&); // move contructor;
     ~List();
 
     void InsertNode(T data);
