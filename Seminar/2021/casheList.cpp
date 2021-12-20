@@ -1,4 +1,5 @@
 #include <iostream>
+#include <exception>
 using namespace std;
 
 template <class T>
@@ -31,28 +32,29 @@ public:
 	}
 
 	~List() {
-		delete[] head;
+		while (head != nullptr) {
+			Node<T>* cur = head;
+			head = head->next;
+			delete cur;
+		}
 	}
-	
+
 	void node_swap(Node<T>* n1, Node<T>* n2) {
-		T pdata = n1->data;
-		int id = n1->uid;
-		int cls = n1->calls;
-
-		n1->data = n2->data;
-		n1->uid = n2->uid;
-		n1->calls = n2->calls;
-
-		n2->data = pdata;
-		n2->uid = id;
-		n2->calls = cls;
+		Node<T>* tmp;
+		tmp = n1;
+		n1 = n2;
+		n1->next = tmp->next;
+		tmp->next = n2->next;
+		n2->prev = n1->prev;
+		n1->prev = tmp->prev;
+		n2 = tmp;
 	}
 
 	void sort(Node<T>* cur) {
 		while (cur->prev != nullptr) {
 			if (cur->prev->calls < cur->calls)
 				node_swap(cur->prev, cur);
-			else 
+			else
 				break;
 
 			cur = cur->prev;
@@ -71,7 +73,7 @@ public:
 			sort(cur);
 		}
 		else {
-			cout << "Setter error";
+			throw std::out_of_range("Setter error!");
 		}
 	}
 
@@ -86,9 +88,7 @@ public:
 			return cur->data;
 		}
 		else {
-			cout << "Getter error";
-			cout << "Returned first element:" << endl;
-			return head->data;
+			throw std::out_of_range("Getter error!");
 		}
 	}
 
@@ -114,33 +114,38 @@ public:
 			cout << cur->data << endl;
 			cur = cur->next;
 		}
-	}	
+	}
 };
 
 
-int main()
-{
-	List<int>* list = new List<int>();
+int main() {
+	try {
+		List<int>* list = new List<int>();
 
-	list->push_back(0);
-	list->push_back(1);
-	list->push_back(2);
-	list->push_back(3);
-	list->push_back(4);
-	list->push_back(5);
-	list->push_back(6);
-	list->push_back(7);
-	list->push_back(8);
-	list->push_back(9);
+		list->push_back(0);
+		list->push_back(1);
+		list->push_back(2);
+		list->push_back(3);
+		list->push_back(4);
+		list->push_back(5);
+		list->push_back(6);
+		list->push_back(7);
+		list->push_back(8);
+		list->push_back(9);
 
-	list->get(1);
-	list->get(2);
-	list->get(1);
+		list->get(1);
+		list->get(2);
+		list->get(1);
 
-	list->get(4);
-	list->get(5);
+		list->get(4);
+		list->get(5);
 
-	list->get(2);
+		list->get(2);
 
-	list->print();
+		list->print();
+	}
+	catch (exception& e) {
+		cerr << "Caught: " << e.what() << endl;
+		cerr << "Type: " << typeid(e).name() << endl;
+	};
 }
