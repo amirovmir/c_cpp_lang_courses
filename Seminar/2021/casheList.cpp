@@ -33,6 +33,31 @@ public:
 	~List() {
 		delete[] head;
 	}
+	
+	void node_swap(Node<T>* n1, Node<T>* n2) {
+		T pdata = n1->data;
+		int id = n1->uid;
+		int cls = n1->calls;
+
+		n1->data = n2->data;
+		n1->uid = n2->uid;
+		n1->calls = n2->calls;
+
+		n2->data = pdata;
+		n2->uid = id;
+		n2->calls = cls;
+	}
+
+	void sort(Node<T>* cur) {
+		while (cur->prev != nullptr) {
+			if (cur->prev->calls < cur->calls)
+				node_swap(cur->prev, cur);
+			else 
+				break;
+
+			cur = cur->prev;
+		}
+	}
 
 	void set(int id, T val)	{
 		Node<T>* cur = head;
@@ -89,34 +114,7 @@ public:
 			cout << cur->data << endl;
 			cur = cur->next;
 		}
-	}
-
-	void node_swap(Node<T>* u1, Node<T>* u2) {
-		T pdata = u1->data;
-		int id = u1->uid;
-		int cls = u1->calls;
-
-		u1->data = u2->data;
-		u1->uid = u2->uid;
-		u1->calls = u2->calls;
-
-		u2->data = pdata;
-		u2->uid = id;
-		u2->calls = cls;
-	}
-
-
-
-	void sort(Node<T>* cur) {
-		while (cur->prev != nullptr) {
-			if (cur->prev->calls < cur->calls)
-				node_swap(cur->prev, cur);
-			else 
-				break;
-
-			cur = cur->prev;
-		}
-	}
+	}	
 };
 
 
