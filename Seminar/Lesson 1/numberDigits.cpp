@@ -5,8 +5,8 @@ using namespace std;
 
 int main() {
     int a, d, count = 0;
-    setlocale(0, ""); // óñòàíàâëèâàåì Êèðèëëèöó
-    cout << "Ââåäèòå ÷èñëî: " << endl;
+    setlocale(LC_ALL, "RUS");
+    cout << "Введите число: " << endl;
     cin >> a;
 
     if (a / 10 == 0) {
@@ -14,7 +14,7 @@ int main() {
         return 0;
     }
 
-    d = a; //ñ÷èòàåì êîë-âî öèôð â ÷èñëå
+    d = a;
     while (d / 10 != 0) {
         d = d / 10;
         ++count;
